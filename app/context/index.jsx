@@ -2,7 +2,7 @@
 
 import { createAppKit } from '@reown/appkit/react'
 import { EthersAdapter } from '@reown/appkit-adapter-ethers'
-import { mainnet, arbitrum, polygon,polygonAmoy } from '@reown/appkit/networks'
+import { mainnet, arbitrum, polygon,polygonAmoy,sepolia} from '@reown/appkit/networks'
 import React from 'react'
 
 // Validate project ID
@@ -25,7 +25,7 @@ const metadata = {
 export const modal = createAppKit({
   adapters: [new EthersAdapter()],
   projectId,
-  networks: [mainnet, arbitrum, polygon, polygonAmoy],
+  networks: [mainnet, arbitrum, polygon, polygonAmoy, sepolia],
 
   metadata,
   themeMode: 'dark',

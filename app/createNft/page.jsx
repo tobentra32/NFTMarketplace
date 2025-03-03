@@ -32,8 +32,7 @@ const CreateNft = () => {
     console.log("uploading");
     const output = await lighthouse.upload(
       file,
-      "09146f8d.b74138793653494cb758b445d8f1b151",
-      null,
+      "4a6b492b.bf633a1883224e21b2d6186eafa2eef3"
     );
     console.log("File Status:", output);
     setFileUrl(`https://gateway.lighthouse.storage/ipfs/${output.data.Hash}`);
@@ -51,7 +50,7 @@ const CreateNft = () => {
     return fileUrl;
   };
 
-  const MarketplaceAddress = "0xb7db51952B405f41a1E9A72f82ef775fECC26fb3";
+  const MarketplaceAddress = "0x8F989D8F8c6CEDd3B1871802E9565622Bd2595B4";
 
   async function uploadMetadataToIPFS() {
     console.log("fileUrl: ", fileUrl);
@@ -75,7 +74,7 @@ const CreateNft = () => {
     const jsonFile = new File([blob], "data.json", { type: "application/json" });
     console.log("metadataJson: ", jsonFile);
     try {
-      const apiKey = "09146f8d.b74138793653494cb758b445d8f1b151";
+      const apiKey = "4a6b492b.bf633a1883224e21b2d6186eafa2eef3";
 
       const metadataOutput = await lighthouse.uploadBuffer(jsonFile, apiKey);
       console.log("metadata Status:", metadataOutput);
@@ -942,7 +941,7 @@ const CreateNft = () => {
               step={0.01}
               min={0.001}
               name="price"
-              placeholder="Price (Pol)"
+              placeholder="Price (ETH)"
               onChange={(e) => setPrice(e.target.value)}
               value={price}
               required
