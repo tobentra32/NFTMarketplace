@@ -4,7 +4,7 @@ const Card = ({ data }) => {
     return (
       <div className="w-full shadow-xl shadow-black rounded-md overflow-hidden bg-gray-800 my-2 p-3">
         <img
-          src={data.metadataURI}
+          src={data.image}
           alt={data.title}
           className="h-60 w-full object-cover shadow-lg shadow-black rounded-lg mb-3"
         />

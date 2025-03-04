@@ -7,7 +7,6 @@ import { ethers } from "ethers";
 import { useAppKitProvider, useAppKitAccount } from "@reown/appkit/react";
 import { BrowserProvider, Contract, formatUnits } from "ethers";
 
-import lighthouse from "@lighthouse-web3/sdk";
 import { useRouter } from 'next/navigation'
 
 
@@ -15,6 +14,8 @@ import { useRouter } from 'next/navigation'
 export default function MyAssets() {
   const [nfts, setNfts] = useState([])
   const [loadingState, setLoadingState] = useState('not-loaded')
+  const { address, caipAddress, isConnected } = useAppKitAccount();
+  const { walletProvider } = useAppKitProvider('eip155')
   const router = useRouter()
   
   async function loadNFTs() {
@@ -768,10 +769,10 @@ export default function MyAssets() {
     const items = await Promise.all(data.map(async i => {
       const tokenURI = await marketplaceContract.tokenURI(i.tokenId)
       const meta = await axios.get(tokenURI)
-      let price = ethers.utils.formatUnits(i.price.toString(), 'ether')
+      let price = ethers.formatUnits(i.price.toString(), 'ether')
       let item = {
         price,
-        tokenId: i.tokenId.toNumber(),
+        tokenId: i.tokenId,
         seller: i.seller,
         owner: i.owner,
         image: meta.data.image,

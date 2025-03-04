@@ -6,9 +6,13 @@ import Identicon from 'react-identicons'
 
 const Hero = () => {
   const router = useRouter();
-  const handleClick = () => {
+  const createNFT = () => {
     router.push('/createNft');
   }
+  const create = () => {
+    router.push('/createNft');
+  }
+  
 
 
 return (
@@ -31,10 +35,11 @@ return (
         <button
           className="shadow-xl shadow-black text-white
           bg-[#e32970] hover:bg-[#bd255f]
-          rounded-full cursor-pointer p-2" onClick={handleClick}
+          rounded-full cursor-pointer p-2" onClick={createNFT}
         >
           Create NFT
         </button>
+        
       </div>
 
       <div className="w-3/4 flex justify-between items-center mt-5">

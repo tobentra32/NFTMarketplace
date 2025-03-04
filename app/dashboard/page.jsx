@@ -4,6 +4,8 @@ import { useState } from "react";
 import { FaTimes } from "react-icons/fa";
 import { ethers } from "ethers";
 
+import axios from "axios";
+
 import { useAppKitProvider, useAppKitAccount } from "@reown/appkit/react";
 import { BrowserProvider, Contract, formatUnits } from "ethers";
 
@@ -13,6 +15,8 @@ import lighthouse from "@lighthouse-web3/sdk";
 export default function CreatorDashboard() {
   const [nfts, setNfts] = useState([])
   const [loadingState, setLoadingState] = useState('not-loaded')
+  const { address, caipAddress, isConnected } = useAppKitAccount();
+  const { walletProvider } = useAppKitProvider('eip155')
   
   async function loadNFTs() {
     if (!isConnected) throw Error("User disconnected");
@@ -763,14 +767,16 @@ export default function CreatorDashboard() {
 
     
     const data = await marketplaceContract.fetchItemsListed()
+    console.log("data:", data);
 
     const items = await Promise.all(data.map(async i => {
-      const tokenUri = await contract.tokenURI(i.tokenId)
+      const tokenUri = await marketplaceContract.tokenURI(i.tokenId)
       const meta = await axios.get(tokenUri)
-      let price = ethers.utils.formatUnits(i.price.toString(), 'ether')
+      console.log("meta:", meta.data);
+      let price = ethers.formatUnits(i.price.toString(), 'ether')
       let item = {
         price,
-        tokenId: i.tokenId.toNumber(),
+        tokenId: i.tokenId,
         seller: i.seller,
         owner: i.owner,
         image: meta.data.image,
@@ -781,6 +787,7 @@ export default function CreatorDashboard() {
     setNfts(items)
     setLoadingState('loaded') 
   }
+  loadNFTs();
   if (loadingState === 'loaded' && !nfts.length) return (<h1 className="py-10 px-20 text-3xl">No NFTs listed</h1>)
   return (
     <div>

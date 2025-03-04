@@ -3,12 +3,9 @@ import React, { useState } from 'react';
 
 import { ethers } from "ethers";
 import axios from "axios";
-
 import { useAppKitProvider, useAppKitAccount } from "@reown/appkit/react"
 import { BrowserProvider, Contract, formatUnits } from 'ethers'
-import { PinataSDK } from "pinata";
-
-import Marketplace from '../Marketplace.json'
+import Card from '../components/Card'
 
 
 const MarketPlace = () => {
@@ -38,7 +35,7 @@ const MarketPlace = () => {
 
 
     async function getAllNFTs() {
-        await waitForConnection();
+
         if (!isConnected) throw Error('User disconnected')
 
         const ethersProvider = new BrowserProvider(walletProvider)
@@ -787,35 +784,29 @@ const MarketPlace = () => {
             //create an NFT Token
         let transaction = await marketplaceContract.fetchMarketItems()
 
+        console.log('transaction:', transaction);
+
         //Fetch all the details of every NFT from the contract and display
         const items = await Promise.all(transaction.map(async i => {
             var tokenURI = await marketplaceContract.tokenURI(i.tokenId);
             //tokenURI = GetIpfsUrlFromPinata(tokenURI);
             console.log('tokenURI:', tokenURI);
 
-
-            function resolvePinataIPFS(ipfsUrl) {
-                // Replace ipfs:// with Pinata's gateway
-
-                if (ipfsUrl.startsWith("ipfs://")) {
-                  return ipfsUrl.replace("ipfs://", "");
-                }
-                return ipfsUrl;
-            }
-        
-
-
+            const meta = await axios.get(tokenURI);
+            console.log('meta:', meta.data);
+            
+          
 
 
             let price = ethers.formatUnits(i.price.toString(), 'ether');
             let item = {
                 price,
-                tokenId: i.tokenId.toNumber(),
+                tokenId: i.tokenId,
                 seller: i.seller,
                 owner: i.owner,
-                image: meta.image,
-                name: meta.name,
-                description: meta.description,
+                image: meta.data.image,
+                name: meta.data.name,
+                description: meta.data.description,
             }
             return item;
         }))
