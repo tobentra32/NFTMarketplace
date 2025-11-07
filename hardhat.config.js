@@ -13,15 +13,19 @@ const ALCHEMY_API_KEY = vars.get("ALCHEMY_API_KEY");
 // go to Account Details > Export Private Key
 // Beware: NEVER put real Ether into testing accounts
 const PRIVATE_KEY = vars.get("PRIVATE_KEY");
+const KITE_RPC_URL = vars.get("KITE_RPC_URL");
+const KITE_CHAIN_ID = vars.get("KITE_CHAIN_ID");
 
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
   solidity: "0.8.28",
+  settings: { optimizer: { enabled: true, runs: 200 } },
   networks: {
     hardhat: {},
-    sepolia: {
-      url: `https://eth-sepolia.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
+    polygonAmoy: {
+      url: "https://rpc-amoy.polygon.technology",
+      chainId: 80002,
       accounts: [`0x${PRIVATE_KEY}`]
     }
   }

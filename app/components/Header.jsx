@@ -1,9 +1,12 @@
-
+"use client"
+import { useGlobalState } from '../store'
 import { ConnectButton } from './connectButton'
 import Link from 'next/link'
 
 
 const Header = () => {
+
+  const [connectedAccount] = useGlobalState('connectedAccount')
 
 return (
   <nav className="w-4/5 flex md:justify-center justify-between items-center py-4 mx-auto">
@@ -11,7 +14,7 @@ return (
       <img
         className="w-32 cursor-pointer"
         src= ""
-        alt="Timeless Logo"
+        alt="NFTMarketplace"
       />
     </div>
 
@@ -23,7 +26,7 @@ return (
       <li className="mx-4 cursor-pointer"><Link href="/marketplace">Marketplace</Link></li>
       
 
-      <li className="mx-4 cursor-pointer"><Link href="/createNft">Create Nft</Link></li>
+      
       <li className="mx-4 cursor-pointer"><Link href="/dashboard">MyNfts</Link></li>
       <li className="mx-4 cursor-pointer">Community</li>
     </ul>

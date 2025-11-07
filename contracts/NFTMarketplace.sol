@@ -15,12 +15,8 @@ contract NFTMarketplace is ERC721URIStorage {
 
     uint256 _itemsSold;
 
-
-
     uint256 listingPrice = 0.00025 ether;
     address payable owner;
-
-
 
     mapping(uint256 => MarketItem) private idToMarketItem;
 
@@ -30,6 +26,9 @@ contract NFTMarketplace is ERC721URIStorage {
       address payable owner;
       uint256 price;
       bool sold;
+      string title;
+      string description;
+      string tokenURI;
     }
 
     event MarketItemCreated (
@@ -69,13 +68,13 @@ contract NFTMarketplace is ERC721URIStorage {
     }
 
     /* Mints a token and lists it in the marketplace */
-    function createToken(string memory tokenURI, uint256 price) public payable returns (uint) {
+    function createToken(string memory tokenURI, uint256 price, string memory title, string memory description ) public payable returns (uint) {
       ++_tokenIds;
       uint256 newTokenId = _tokenIds;
 
       _mint(msg.sender, newTokenId);
       _setTokenURI(newTokenId, tokenURI);
-      createMarketItem(newTokenId, price);
+      createMarketItem(newTokenId, price, title, description, tokenURI);
       return newTokenId;
     }
 
@@ -86,7 +85,10 @@ contract NFTMarketplace is ERC721URIStorage {
 
     function createMarketItem(
       uint256 tokenId,
-      uint256 price
+      uint256 price,
+      string memory title,
+      string memory description,
+      string memory tokenURI
     ) private {
       require(price > 0, "Price must be at least 1 wei");
       require(msg.value == listingPrice, "Price must be equal to listing price");
@@ -96,7 +98,10 @@ contract NFTMarketplace is ERC721URIStorage {
         payable(msg.sender),
         payable(address(this)),
         price,
-        false
+        false,
+        title,
+        description,
+        tokenURI
       );
 
       _transfer(msg.sender, address(this), tokenId);

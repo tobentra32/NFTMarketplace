@@ -1,7 +1,8 @@
 "use client"
 import { useRouter } from 'next/navigation'
+import { setGlobalState, useGlobalState, truncate } from '../store'
 import Identicon from 'react-identicons'
-
+import { useState } from 'react'
 
 
 const Hero = () => {
@@ -11,6 +12,15 @@ const Hero = () => {
   }
   const create = () => {
     router.push('/createNft');
+  }
+
+  const [connectedAccount] = useGlobalState('connectedAccount')
+ 
+
+  const onCreatedNFT = () => {
+    
+
+    setGlobalState('modal', 'scale-100')
   }
   
 
@@ -35,7 +45,7 @@ return (
         <button
           className="shadow-xl shadow-black text-white
           bg-[#e32970] hover:bg-[#bd255f]
-          rounded-full cursor-pointer p-2" onClick={createNFT}
+          rounded-full cursor-pointer p-2" onClick={onCreatedNFT}
         >
           Create NFT
         </button>

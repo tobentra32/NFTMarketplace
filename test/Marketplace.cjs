@@ -82,8 +82,11 @@ describe("NFTMarketplace contract", function () {
     const { nftMarketplace, owner, addr1, addr2  } = await loadFixture(deployMarketplaceFixture);
     const tokenURI = "https://test-token.com";
     const price = ethers.parseEther("1");
+    const title = "test title";
+    const description = "test description";
 
-    await nftMarketplace.connect(addr1).createToken(tokenURI, price, {
+
+    await nftMarketplace.connect(addr1).createToken(tokenURI, price, title, description, {
       value: ethers.parseEther("0.025"),
     });
 
@@ -97,9 +100,11 @@ describe("NFTMarketplace contract", function () {
     const { nftMarketplace, owner, addr1, addr2  } = await loadFixture(deployMarketplaceFixture);
     const tokenURI = "https://test-token.com";
     const price = ethers.parseEther("1");
+    const title = "test title";
+    const description = "test description";
 
     await expect(
-      nftMarketplace.connect(addr1).createToken(tokenURI, price, {
+      nftMarketplace.connect(addr1).createToken(tokenURI, price, title, description, {
         value: ethers.parseEther("0.01"),
       })
     ).to.be.revertedWith("Price must be equal to listing price");
@@ -108,7 +113,7 @@ describe("NFTMarketplace contract", function () {
   it("Should complete a market sale", async function () {
     const { nftMarketplace, owner, addr1, addr2  } = await loadFixture(deployMarketplaceFixture);
 
-    await nftMarketplace.connect(addr1).createToken("https://test-token.com", ethers.parseEther("1"), {
+    await nftMarketplace.connect(addr1).createToken("https://test-token.com", ethers.parseEther("1"), "test title", "test description", {
         value: ethers.parseEther("0.025"),
     });
 
@@ -126,7 +131,8 @@ describe("NFTMarketplace contract", function () {
   it("Should fail if payment is incorrect", async function () {
 
     const { nftMarketplace, owner, addr1, addr2  } = await loadFixture(deployMarketplaceFixture);
-    await nftMarketplace.connect(addr1).createToken("https://test-token.com", ethers.parseEther("1"), {
+    
+    await nftMarketplace.connect(addr1).createToken("https://test-token.com", ethers.parseEther("1"), "test title", "test description", {
         value: ethers.parseEther("0.025"),
     });
     await expect(
@@ -138,7 +144,7 @@ describe("NFTMarketplace contract", function () {
 
   it("Should fail if price is not met", async function () {
     const { nftMarketplace, owner, addr1, addr2, addr3 } = await loadFixture(deployMarketplaceFixture);
-    await nftMarketplace.connect(addr1).createToken("https://test-token.com", ethers.parseEther("1"), {
+    await nftMarketplace.connect(addr1).createToken("https://test-token.com", ethers.parseEther("1"), "test title", "test description", {
         value: ethers.parseEther("0.025"),
     });
 
@@ -152,7 +158,7 @@ describe("NFTMarketplace contract", function () {
 
     const { nftMarketplace, owner, addr1, addr2, addr3 } = await loadFixture(deployMarketplaceFixture);
 
-    await nftMarketplace.connect(addr1).createToken("https://test-token.com", ethers.parseEther("1"), {
+    await nftMarketplace.connect(addr1).createToken("https://test-token.com", ethers.parseEther("1"), "test title", "test description", {
         value: ethers.parseEther("0.025"),
     });
 
@@ -172,7 +178,7 @@ describe("NFTMarketplace contract", function () {
 
     const { nftMarketplace, owner, addr1, addr2, addr3 } = await loadFixture(deployMarketplaceFixture);
 
-    await nftMarketplace.connect(addr1).createToken("https://test-token.com", ethers.parseEther("1"), {
+    await nftMarketplace.connect(addr1).createToken("https://test-token.com", ethers.parseEther("1"), "test title", "test description", {
         value: ethers.parseEther("0.025"),
     });
 
@@ -190,11 +196,11 @@ describe("NFTMarketplace contract", function () {
 
     const { nftMarketplace, owner, addr1, addr2, addr3 } = await loadFixture(deployMarketplaceFixture);
 
-    await nftMarketplace.connect(addr1).createToken("https://test-token1.com", ethers.parseEther("1"), {
+    await nftMarketplace.connect(addr1).createToken("https://test-token1.com", ethers.parseEther("1"), "test title", "test description", {
       value: ethers.parseEther("0.025"),
     });
 
-    await nftMarketplace.connect(addr2).createToken("https://test-token2.com", ethers.parseEther("2"), {
+    await nftMarketplace.connect(addr2).createToken("https://test-token2.com", ethers.parseEther("2"), "test title2", "test description2", {
       value: ethers.parseEther("0.025"),
     });
 
@@ -207,11 +213,11 @@ describe("NFTMarketplace contract", function () {
 
   it("Should fetch user's NFTs", async function () {
     const { nftMarketplace, owner, addr1, addr2, addr3 } = await loadFixture(deployMarketplaceFixture);
-    await nftMarketplace.connect(addr1).createToken("https://test-token1.com", ethers.parseEther("1"), {
+    await nftMarketplace.connect(addr1).createToken("https://test-token1.com", ethers.parseEther("1"), "test title", "test description",{
       value: ethers.parseEther("0.025"),
     });
 
-    await nftMarketplace.connect(addr2).createToken("https://test-token2.com", ethers.parseEther("2"), {
+    await nftMarketplace.connect(addr2).createToken("https://test-token2.com", ethers.parseEther("2"), "test title2", "test description2",{
       value: ethers.parseEther("0.025"),
     });
 
