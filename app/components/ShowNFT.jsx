@@ -1,7 +1,8 @@
 import Identicon from 'react-identicons'
 import { FaTimes } from 'react-icons/fa'
+import { formatUnits, parseEther } from "ethers";
 import { useGlobalState, setGlobalState, truncate, setAlert } from '../store'
-import { buyNFT } from '../Blockchain.Services'
+//import { buyNFT } from '../Blockchain.Services'
 
 const ShowNFT = () => {
   const [showModal] = useGlobalState('showModal')
@@ -53,7 +54,7 @@ const ShowNFT = () => {
             <div className="shrink-0 rounded-xl overflow-hidden h-40 w-40">
               <img
                 className="h-full w-full object-cover cursor-pointer"
-                src={nft?.metadataURI}
+                src={nft?.tokenURI}
                 alt={nft?.title}
               />
             </div>
@@ -80,7 +81,7 @@ const ShowNFT = () => {
 
               <div className="flex flex-col">
                 <small className="text-xs">Current Price</small>
-                <p className="text-sm font-semibold">{nft?.cost} ETH</p>
+                <p className="text-sm font-semibold">  ETH</p>
               </div>
             </div>
           </div>

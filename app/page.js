@@ -10,40 +10,49 @@ import Artwork from "./components/Artwork";
 import CreateNFT from "./components/CreateNFT";
 import Loading from "./components/Loading";
 import Transactions from "./components/Transactions";
-
+import Alert from "./components/Alert";
 import Footer from "./components/Footer";
+import ShowNFT from './components/ShowNFT';
+import UpdateNFT from './components/UpdateNFT';
 
 export default function Home() {
 
   const { address, caipAddress, isConnected } = useAppKitAccount();
   const { walletProvider } = useAppKitProvider("eip155");
 
- 
 
-  useEffect(async () => {
-    async function loadData() {
 
-      const data = await getAllNFTs(walletProvider);
-      console.log('data:',data);
+  async function loadData() {
+    try {
+      const data = await getAllNFTs({ walletProvider });
+      console.log('data:', data);
+    } catch (err) {
+      console.error('Error fetching NFTs:', err);
     }
+  }
 
-    loadData();
-    
-  }, [walletProvider])
+  loadData();
+
+
+
 
   return (
     <div className="min-h-screen">
-    <div className="gradient-bg-hero">
+      <div className="gradient-bg-hero">
 
 
-      <Hero />
+        <Hero />
+      </div>
+      <Artwork />
+      <Loading />
+      <ShowNFT />
+
+      <Transactions />
+      <CreateNFT />
+      <Footer />
+      <Alert />
+      <UpdateNFT />
     </div>
-    <Artwork />
-    <Loading />
-    <Transactions />
-    <CreateNFT />
-    <Footer />
-  </div>
 
   );
 }

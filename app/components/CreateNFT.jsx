@@ -12,7 +12,6 @@ import { ethers } from "ethers";
 import { useAppKitProvider, useAppKitAccount } from "@reown/appkit/react";
 import { BrowserProvider, Contract, formatUnits } from "ethers";
 
-import contractAbi from '../contract_info/contractAbi';
 import { createNFT } from '../NFTServices';
 
 //import { mintNFT } from '../Blockchain.Services'

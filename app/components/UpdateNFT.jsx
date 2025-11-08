@@ -5,7 +5,7 @@ import {
   setLoadingMsg,
   setAlert,
 } from '../store'
-import { updateNFT } from '../Blockchain.Services'
+//import { updateNFT } from '../Blockchain.Services'
 import { useState } from 'react'
 import { FaTimes } from 'react-icons/fa'
 

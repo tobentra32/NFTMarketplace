@@ -1,5 +1,6 @@
 "use client"
 import { useEffect, useState } from 'react'
+import { formatUnits, parseEther } from "ethers";
 import { setGlobalState, useGlobalState } from '../store'
 
 const Artworks = () => {
@@ -55,7 +56,7 @@ const Card = ({ nft }) => {
   return (
     <div className="w-full shadow-xl shadow-black rounded-md overflow-hidden bg-gray-800 my-2 p-3">
       <img
-        src={nft.metadataURI}
+        src={nft.tokenURI}
         alt={nft.title}
         className="h-60 w-full object-cover shadow-lg shadow-black rounded-lg mb-3"
       />
@@ -64,7 +65,7 @@ const Card = ({ nft }) => {
       <div className="flex justify-between items-center mt-3 text-white">
         <div className="flex flex-col">
           <small className="text-xs">Current Price</small>
-          <p className="text-sm font-semibold">{nft.cost} ETH</p>
+          <p className="text-sm font-semibold">{formatUnits(nft.price)} ETH</p>
         </div>
 
         <button

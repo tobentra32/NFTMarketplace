@@ -62,14 +62,17 @@ const getAllNFTs = async ({walletProvider}) => {
     const ethersProvider = new BrowserProvider(walletProvider);
     const signer = await ethersProvider.getSigner();
     const contract = new Contract(nft_address, contractAbi, signer);
+    console.log('contract:', contract);
 
     const nfts = await contract.fetchMarketItems();
+    console.log('nfts:', nfts);
     const transactions = await contract.fetchMarketItems();
 
-    setGlobalState('nfts', structuredNfts(nfts))
-    setGlobalState('transactions', structuredNfts(transactions))
+    setGlobalState('nfts', structuredNfts(nfts));
+    setGlobalState('transactions', structuredNfts(transactions));
   } catch (error) {
-    reportError(error)
+    //reportError(error)
+    console.log("error:", error);
   }
 }
 
@@ -85,6 +88,44 @@ const updateNFT = async ({ id, cost }) => {
   }
 }
 
+const getMyNFTs = async ({walletProvider}) => {
+  try {
+    const ethersProvider = new BrowserProvider(walletProvider);
+    const signer = await ethersProvider.getSigner();
+    const contract = new Contract(nft_address, contractAbi, signer);
+    console.log('contract:', contract);
+
+    const myNfts = await contract.fetchMarketItems();
+    console.log('my-nfts:', myNfts);
+    const transactions = await contract.fetchMyNFTs();
+
+    setGlobalState('userNfts', structuredNfts(myNfts));
+    //setGlobalState('transactions', structuredNfts(transactions));
+  } catch (error) {
+    reportError(error)
+  }
+}
+
+const getMyListedNFTs = async ({walletProvider}) => {
+  try {
+    const ethersProvider = new BrowserProvider(walletProvider);
+    const signer = await ethersProvider.getSigner();
+    const contract = new Contract(nft_address, contractAbi, signer);
+    console.log('contract:', contract);
+
+    const listedNfts = await contract.fetchItemsListed();
+    console.log('listed-nfts:', listedNfts);
+    const transactions = await contract.fetchMarketItems();
+
+    setGlobalState('listedNfts', structuredNfts(listedNfts));
+    setGlobalState('transactions', structuredNfts(transactions));
+  } catch (error) {
+    reportError(error)
+  }
+}
+
+
+
 const reportError = (error) => {
   setAlert(JSON.stringify(error), 'red')
 }
@@ -95,11 +136,11 @@ const structuredNfts = (nfts) => {
       id: Number(nft.tokenId),
       seller: nft.seller,
       owner: nft.owner.toLowerCase(),
-      price: parseEther(nft.price),
+      price: nft.price.toString(),
       sold: nft.sold,
       title: nft.title,
       description: nft.description,
-      metadataURI: nft.tokenURI,
+      tokenURI: nft.tokenURI,
       
     }))
     .reverse()
@@ -108,11 +149,11 @@ const structuredNfts = (nfts) => {
 
 export {
   getAllNFTs,
-  connectWallet,
+  getMyNFTs,
   createNFT,
   buyNFT,
   updateNFT,
-  isWallectConnected,
+  getMyListedNFTs
 }
 
 
