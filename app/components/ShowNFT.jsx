@@ -1,13 +1,17 @@
 import Identicon from 'react-identicons'
 import { FaTimes } from 'react-icons/fa'
-import { formatUnits, parseEther } from "ethers";
 import { useGlobalState, setGlobalState, truncate, setAlert } from '../store'
-//import { buyNFT } from '../Blockchain.Services'
+import { useAppKitProvider, useAppKitAccount } from "@reown/appkit/react";
+import { BrowserProvider, Contract, formatUnits, parseEther } from "ethers";
+import { buyNFT } from '../NFTServices';
+
 
 const ShowNFT = () => {
   const [showModal] = useGlobalState('showModal')
   const [connectedAccount] = useGlobalState('connectedAccount')
   const [nft] = useGlobalState('nft')
+  const { address, caipAddress, isConnected } = useAppKitAccount();
+  const { walletProvider } = useAppKitProvider("eip155");
 
   const onChangePrice = () => {
     setGlobalState('showModal', 'scale-0')
@@ -22,14 +26,24 @@ const ShowNFT = () => {
     })
 
     try {
-      await buyNFT(nft)
+
+      //console.log("nft for buy :", nft.id);
+
+      const tokenId = nft.id;
+
+      //console.log('tokenId:', tokenId);
+
+      await buyNFT({tokenId, walletProvider, price: parseEther(formatUnits(nft.price, 'ether'))});
+
       setAlert('Transfer completed...', 'green')
-      window.location.reload()
+      //window.location.reload()
     } catch (error) {
       console.log('Error transfering NFT: ', error)
       setAlert('Purchase failed...', 'red')
     }
   }
+
+  //console.log('connectAccount:', connectedAccount, nft?.owner)
 
   return (
     <div
@@ -81,25 +95,12 @@ const ShowNFT = () => {
 
               <div className="flex flex-col">
                 <small className="text-xs">Current Price</small>
-                <p className="text-sm font-semibold">  ETH</p>
+                <p className="text-sm font-semibold"> ETH</p>
               </div>
             </div>
           </div>
           <div className="flex justify-between items-center space-x-2">
-            {connectedAccount == nft?.owner ? (
-              <button
-                className="flex flex-row justify-center items-center
-                w-full text-[#e32970] text-md border-[#e32970]
-                py-2 px-5 rounded-full bg-transparent 
-                drop-shadow-xl border hover:bg-[#bd255f]
-                hover:bg-transparent hover:text-white
-                hover:border hover:border-[#bd255f]
-                focus:outline-none focus:ring mt-5"
-                onClick={onChangePrice}
-              >
-                Change Price
-              </button>
-            ) : (
+            
               <button
                 className="flex flex-row justify-center items-center
                 w-full text-white text-md bg-[#e32970]
@@ -112,7 +113,7 @@ const ShowNFT = () => {
               >
                 Purchase Now
               </button>
-            )}
+          
           </div>
         </div>
       </div>

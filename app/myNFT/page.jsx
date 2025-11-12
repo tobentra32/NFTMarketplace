@@ -7,6 +7,7 @@ import { useAppKitProvider, useAppKitAccount } from "@reown/appkit/react";
 import { getMyNFTs } from '../NFTServices';
 import { BrowserProvider, Contract, formatUnits, ethers, parseEther } from "ethers";
 import { useRouter } from 'next/navigation'
+import ResellNft from '../components/ResellNft';
 
 
 export default function MyAssets() {
@@ -34,7 +35,7 @@ export default function MyAssets() {
 
     try {
       const data = await getMyNFTs({ walletProvider });
-      console.log('data:', data);
+      //console.log('data:', data);
     } catch (err) {
       console.error('Error fetching NFTs:', err);
     }
@@ -51,6 +52,7 @@ export default function MyAssets() {
   if (loadingState === 'loaded' && !userNfts.length) return (<h1 className="py-10 px-20 text-3xl">No NFTs owned</h1>)
   return (
     <div className="bg-[#151c25] gradient-bg-artworks">
+      <ResellNft />
       <div className="w-4/5 py-10 mx-auto">
         <h4 className="text-white text-3xl font-bold uppercase text-gradient">
           {collection.length > 0 ? 'Latest Artworks' : 'No Artworks Yet'}
@@ -83,8 +85,9 @@ export default function MyAssets() {
 
 const Card = ({ nft }) => {
   const setNFT = () => {
-    setGlobalState('nft', nft)
-    setGlobalState('showModal', 'scale-100')
+    setGlobalState('resellModal', 'scale-100')
+    setGlobalState('userNft', nft)
+    
   }
 
   return (

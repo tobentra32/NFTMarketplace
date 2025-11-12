@@ -9,6 +9,11 @@ import {
 import { useState } from 'react'
 import { FaTimes } from 'react-icons/fa'
 
+import { useAppKitProvider, useAppKitAccount } from "@reown/appkit/react";
+import { BrowserProvider, Contract, formatUnits } from "ethers";
+
+import { updateNFT } from '../NFTServices';
+
 const UpdateNFT = () => {
   const [modal] = useGlobalState('updateModal')
   const [nft] = useGlobalState('nft')
@@ -57,7 +62,7 @@ const UpdateNFT = () => {
             <div className="shrink-0 rounded-xl overflow-hidden h-20 w-20">
               <img
                 alt={nft?.title}
-                src={nft?.metadataURI}
+                src={nft?.tokenURI}
                 className="h-full w-full object-cover cursor-pointer"
               />
             </div>
