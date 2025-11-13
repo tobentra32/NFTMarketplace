@@ -5,6 +5,7 @@ const { setGlobalState, useGlobalState, getGlobalState } = createGlobalState({
   updateModal: 'scale-0',
   showModal: 'scale-0',
   resellModal: 'scale-0',
+  listModal: 'scale-0',
   alert: { show: false, msg: '', color: '' },
   loading: { show: false, msg: '' },
   connectedAccount: '',

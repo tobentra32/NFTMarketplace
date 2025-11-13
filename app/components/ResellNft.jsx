@@ -13,7 +13,7 @@ import { FaTimes } from "react-icons/fa";
 import { ethers } from "ethers";
 
 import { useAppKitProvider, useAppKitAccount } from "@reown/appkit/react";
-import { BrowserProvider, Contract, formatUnits } from "ethers";
+import { BrowserProvider, Contract, formatUnits, parseEther } from "ethers";
 
 import { resellNFT } from "../NFTServices";
 
@@ -30,20 +30,26 @@ const ResellNft = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("starting resell with price:", price);
 
     if (!price) return;
 
-    setGlobalState("modal", "scale-0");
-    //setGlobalState("loading", { show: true, msg: "Uploading IPFS data..." });
+    setGlobalState("resellModal", "scale-0");
+    setGlobalState("loading", { show: true, msg: "Uploading IPFS data..." });
 
     try {
       
 
       setLoadingMsg("Intializing transaction...");
 
-      const tokenId = userNft.id;
+      console.log("Intializing transaction...")
 
-      await resellNFT(tokenId, price);
+      const tokenId = userNft.id;
+      console.log('tokenId:', tokenId);
+      
+
+      await resellNFT({tokenId, price, walletProvider});
+      console.log("ResellNft: NFT resold successfully");
 
       //resetForm()
       setAlert("Listing completed...", "green");

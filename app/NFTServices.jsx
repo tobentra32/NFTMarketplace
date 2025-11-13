@@ -50,15 +50,31 @@ const buyNFT = async ({ tokenId, price, walletProvider}) => {
 
 const resellNFT = async ({ tokenId, price, walletProvider}) => {
   try {
+
+    console.log('Reselling nft with tokenId:', tokenId);
+    console.log('Using walletProvider:', walletProvider);
+    console.log('Price:', price);
     const ethersProvider = new BrowserProvider(walletProvider);
+    console.log('ethersProvider:', ethersProvider);
+
     const signer = await ethersProvider.getSigner();
-    const contract = new Contract(nft_address, contractAbi, signer);
-    const buyer = getGlobalState('connectedAccount')
+    console.log('Signer:', signer);
     
+    const contract = new Contract(nft_address, contractAbi, signer);
+    console.log('Contract:', contract);
+    const buyer = getGlobalState('connectedAccount')
+    console.log('buyer:', buyer);
+    price = price.toString();
+    console.log('price:', price);
+    price = parseEther(price);
+    
+    const tx = await contract.resellToken(tokenId,  price ,{
+      value: parseEther("0.00025"),
+    });
+    await tx.wait();
+    console.log("tx", tx);
 
-    const tx = await contract.resellToken(tokenId, price);
-
-    return true
+    //return true
   } catch (error) {
     reportError(error)
   }

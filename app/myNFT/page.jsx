@@ -8,6 +8,7 @@ import { getMyNFTs } from '../NFTServices';
 import { BrowserProvider, Contract, formatUnits, ethers, parseEther } from "ethers";
 import { useRouter } from 'next/navigation'
 import ResellNft from '../components/ResellNft';
+import Loading from '../components/Loading';
 
 
 export default function MyAssets() {
@@ -53,6 +54,7 @@ export default function MyAssets() {
   return (
     <div className="bg-[#151c25] gradient-bg-artworks">
       <ResellNft />
+      <Loading />
       <div className="w-4/5 py-10 mx-auto">
         <h4 className="text-white text-3xl font-bold uppercase text-gradient">
           {collection.length > 0 ? 'Latest Artworks' : 'No Artworks Yet'}
